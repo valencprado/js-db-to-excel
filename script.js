@@ -28,7 +28,7 @@ for(column of Object.values(formData)) {
   
 }
   
-  workbook.xlsx.writeFile('data.xlsx') // write the final file with all the sheets set
+  workbook.xlsx.writeFile('data.xlsx') // write the final file with all the sheets
   .then(() => {
     console.log('Excel file created successfully.');
   })
