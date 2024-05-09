@@ -2,36 +2,33 @@ const sqlite3 = require('better-sqlite3');
 const ExcelJS = require('exceljs');
 
 const formData = {
-  "armadilhas-select": "armadilhas",
-  "ninhos-select": "ninhos"
+// columns selected by a checkbox form
 }
-// Open SQLite database file
+
+
 const db = sqlite3('data.db');
 const workbook = new ExcelJS.Workbook();
 
 for(column of Object.values(formData)) {
-
-  
   
   const rows = db.prepare(`SELECT * FROM ${column}`).all();
   
 
   const worksheet = workbook.addWorksheet(`${column}`);
   
-  // Add headers
-  const headers = Object.keys(rows[0]);
+
+  const headers = Object.keys(rows[0]); // header is the first row
   worksheet.addRow(headers);
   
-  // Add rows
   rows.forEach(row => {
     const values = Object.values(row);
-    worksheet.addRow(values);
+    worksheet.addRow(values); // populates the rows
   });
   
   
 }
-  // Save the workbook to a file
-  workbook.xlsx.writeFile('data.xlsx')
+  
+  workbook.xlsx.writeFile('data.xlsx') // write the final file with all the sheets set
   .then(() => {
     console.log('Excel file created successfully.');
   })
